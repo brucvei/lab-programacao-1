@@ -10,7 +10,7 @@ int rand_entre(int inicio, int final){
 
 int main()
 {
-    setlocale(LC_ALL, "portuguese");
+    setlocale(LC_ALL, "Portuguese");
     int numero1, numero2, aleatorio;
 
     printf("Digite um número: ");
