@@ -4,9 +4,6 @@
 #include <time.h>
 #include <stdbool.h>
 
-// Suponha que já existe uma função que recebe um número e retorna um bool que diz se esse número é primo.
-// Faça uma função que recebe um número e retorna o menor número primo maior que o número recebido.
-
 bool primo(int num)
 {
     int i, resultado = 0;
@@ -25,18 +22,19 @@ bool primo(int num)
     return (resultado == 0) ? true : false;
 }
 
-int total(int j, int i)
+int total(int num1, int num2)
 {
     int tmp = 0;
 
     do {
-        if (primo(j)) {
+        if (primo(num1))
+        {
             tmp++;
             // printf("- %d: %d\n", j, tmp);
         }
-        j++;
-    } while (j < i);
-    
+        num1++;
+    } while (num1 < num2);
+
     return tmp;
 }
 

@@ -7,7 +7,7 @@
 
 int main()
 {
-    setlocale(LC_ALL, "portuguese");
+    setlocale(LC_ALL, "Portuguese");
     int opcao, numero, param1, param2, p1Anterior, p2Anterior;
 
     param1 = 0;
@@ -17,7 +17,7 @@ int main()
     do
     {
         srand(time(NULL));
-        
+
         p1Anterior = param1;
         p2Anterior = param2;
 
