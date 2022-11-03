@@ -1,6 +1,6 @@
 # Laboratório de programação 1
 
-Repositório dedicado a exercicios da disciplina.
+Repositório dedicado a exercicios da disciplina:
 
 Laboratório de programação 1
 
