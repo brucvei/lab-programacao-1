@@ -6,11 +6,16 @@
 #include <time.h>
 #include <string.h>
 #include <stdbool.h>
+
+#define MAX 9
+char anteriores[][4] = {};
+int top = -1;
+
 #pragma region 
 void cor_fundo(int vermelho, int verde, int azul) {
     printf("\e[48;2;%d;%d;%dm", vermelho, verde, azul);
 }
-// escolhe a cor normal para os próximos caracteres que serão escritos
+
 void cor_normal(void) {
     printf("\e[m");
 }
@@ -102,9 +107,18 @@ bool valida(char chute[]){
 }
 #pragma endregion
 
-void processa(char chute[], char cores[4], char *anteriores[], char *letras[], bool *acertou){
+void push(char chute[]){
+    if(top == MAX) // pilha cheia
+        printf("npilha cheian");
+    else {
+        top++;  
+        strcpy(anteriores[top], chute);
+    }
+}
+
+void processa(char chute[], char cores[4], bool *acertou){
     if(valida(chute)){
-        strcpy(*anteriores, chute);
+        push(chute);
         char temp[4];
         int result = verifica(chute, cores);
         int pretos = result / 10;
@@ -128,13 +142,16 @@ void desistir(bool *desistiu) {
     puts("Certo! Foi bom o jogo.");
 }
 
-void historico(char *anteriores[]) {
-    // for (int i = 0; i < 8; i++)
-    // {
-    //     puts(anteriores[i]);
-    // }
-    
-    puts("historico");
+void historico() {
+    printf("\n");
+    puts("Histórico de jogadas");
+    int i = 0;
+    while (i < MAX){
+        if (anteriores[i] != "\n" && strlen(anteriores[i]) == 4)
+            printf("%s \n", anteriores[i]);
+        i++;
+    }
+    printf("\n");
 }
 #pragma region
 void tabela() {
@@ -190,7 +207,7 @@ void sorteia(char *letras[], char *resultado) {
 #pragma endregion
 void partida() { // cores = {"vermelho", "laranja", "amarelo", "verde", "azul", "anil", "violeta"}
     char chute[4], cores[4] = {};
-    char* letras[] = {"v", "l", "a", "e", "z", "n", "i"}, *anteriores[] = {};
+    char* letras[] = {"v", "l", "a", "e", "z", "n", "i"};
     int chances = 9;
     bool desistiu = false, acertou = false;
 
@@ -202,10 +219,10 @@ void partida() { // cores = {"vermelho", "laranja", "amarelo", "verde", "azul", 
         gets(chute);
         int tipo = especial(chute);
         if (tipo == 1) tabela();
-        else if (tipo == 2) historico(anteriores);
+        else if (tipo == 2) historico();
         else if (tipo == 3) desistir(&desistiu);
         else {
-            processa(chute, cores, anteriores, letras, &acertou);
+            processa(chute, cores, &acertou);
             chances--;
         }
         if (acertou) break;
@@ -222,7 +239,7 @@ void jogo() { // inicia o jogo
         puts("Deseja jogar outra vez?");
         puts("Digite qualquer coisa para sim e 'N' para não.");
         gets(resposta);
-        if (strcmp(resposta, "n") != 0) break;
+        if (strcmp(resposta, "n") == 0) break;
     }
 
     puts("Até logo!");
