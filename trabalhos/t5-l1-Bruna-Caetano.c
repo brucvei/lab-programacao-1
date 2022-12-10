@@ -19,47 +19,124 @@ void espaco_vazio(int quantidade) {
     for (int i = 0; i < quantidade; i++)
         printf(" ");
 }
-#pragma endregion
 
-int verifica(char chute[]){
+void linha_brancos(int qntd){
+    for (int i = 0; i < qntd; i++) {
+        cor_fundo(255, 255, 255);
+        espaco_vazio(5);
+        cor_normal();
+        espaco_vazio(1);
+    }
+}
+
+void linha_pretos(int qntd){
+    for (int i = 0; i < qntd; i++) {
+        cor_fundo(46, 46, 46);
+        espaco_vazio(5);
+        cor_normal();
+        espaco_vazio(1);
+    }
+}
+
+void linha_chute(char chute[], int linha){
     char* letras[] = {"v", "l", "a", "e", "z", "n", "i"};
-    bool fora = false;
+    int cores[7][3] = {{255, 0, 0},{255, 127, 0},{255, 255, 0},{0, 255, 0},{0, 0, 255},{75, 0, 130},{143, 0, 255}};
+
+    for (int i = 0; i < 4; i++) {
+        for (int k = 0; k < 7; k++){
+            if (chute[i] == *letras[k]){
+                cor_fundo(cores[k][0], cores[k][1], cores[k][2]);
+            }
+        }
+        if (linha == 1) {
+            espaco_vazio(2);
+            printf("%c", chute[i]);
+            espaco_vazio(2);
+        } 
+        else {
+            espaco_vazio(5);
+        }
+        cor_normal();
+        espaco_vazio(1);
+    }
+}
+
+void desenha(char chute[], int pretos, int brancos){
+    printf("\n");
+    
+    for (int j = 0; j < 3; j++) {
+        linha_chute(chute, j);
+        linha_pretos(pretos);
+        linha_brancos(brancos);
+        printf("\n");
+    }
+    printf("\n");
+
+}
+
+int verifica(char chute[], char cores[4]){
+    int result = 0;
+
+    for (int i = 0; i < 4; i++){
+        for (int j = 0; j < 4; j++){
+            if (chute[i] == cores[j] && i != j) result++;
+            if (chute[i] == cores[j] && i == j) result += 10;
+        }
+    }
+    
+    return result;
+}
+
+bool valida(char chute[]){
+    char *letras[] = {"v", "l", "a", "e", "z", "n", "i"};
+    bool dentro = false;
 
     if (strlen(chute) != 4) return false;
 
     for (int i = 0; i < 4; i++)
         for (int j = 0; j < 7; j++)
-            printf("%c - %c ", chute[i], letras[j]);
-           /*  if (chute[i] == letras[j])
-                fora = true; */
+            if (chute[i] == *letras[j])
+                dentro = true; 
 
-    if (fora == false) return false;
-
-    return true;
+    return dentro;
 }
+#pragma endregion
 
 void processa(char chute[], char cores[4], char *anteriores[], char *letras[], bool *acertou){
-    if(verifica(chute)){
+    if(valida(chute)){
         strcpy(*anteriores, chute);
-        /* verificar cada letra,
-        verificar se esta na ordem certa */
-        for (int i = 0; i < 4; i++) {
-            printf("%c - %c ", chute[i], cores[i]);
+        char temp[4];
+        int result = verifica(chute, cores);
+        int pretos = result / 10;
+        int brancos = result - pretos * 10;
+
+        desenha(chute, pretos, brancos);
+        strncpy(temp, cores, 4);
+
+        if (strcmp(chute, temp) == 0)
+        {
+            puts("Parabéns! Você acertou!");
+            *acertou = true;
         }
     } else {
         puts("Seu chute foi inválido, tente novamente.");
     }
-    
-}
-#pragma region
-void desistir() {
-    puts("desistiu");
 }
 
-void historico() {
+void desistir(bool *desistiu) {
+    *desistiu = true;
+    puts("Certo! Foi bom o jogo.");
+}
+
+void historico(char *anteriores[]) {
+    // for (int i = 0; i < 8; i++)
+    // {
+    //     puts(anteriores[i]);
+    // }
+    
     puts("historico");
 }
-
+#pragma region
 void tabela() {
     char* letras[] = {"v", "l", "a", "e", "z", "n", "i"};
     int cores[7][3] = {{255, 0, 0},{255, 127, 0},{255, 255, 0},{0, 255, 0},{0, 0, 255},{75, 0, 130},{143, 0, 255}};
@@ -125,13 +202,15 @@ void partida() { // cores = {"vermelho", "laranja", "amarelo", "verde", "azul", 
         gets(chute);
         int tipo = especial(chute);
         if (tipo == 1) tabela();
-        else if (tipo == 2) historico();
+        else if (tipo == 2) historico(anteriores);
         else if (tipo == 3) desistir(&desistiu);
         else {
             processa(chute, cores, anteriores, letras, &acertou);
             chances--;
         }
-    } while (!acertou || !desistiu || chances != 0);
+        if (acertou) break;
+        if (desistiu) break;
+    } while (chances != 0);
 }
 
 void jogo() { // inicia o jogo
@@ -143,6 +222,7 @@ void jogo() { // inicia o jogo
         puts("Deseja jogar outra vez?");
         puts("Digite qualquer coisa para sim e 'N' para não.");
         gets(resposta);
+        if (strcmp(resposta, "n") != 0) break;
     }
 
     puts("Até logo!");
