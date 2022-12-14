@@ -6,10 +6,11 @@
 #include <time.h>
 #include <string.h>
 #include <stdbool.h>
+#include <ctype.h>
 
 #define MAX 9
-char anteriores[][4] = {};
-int top = -1;
+char anteriores[][4] = {"", "", "", "", "", "", "", ""};
+int top = 0;
 
 #pragma region 
 void cor_fundo(int vermelho, int verde, int azul) {
@@ -49,7 +50,7 @@ void linha_chute(char chute[], int linha){
 
     for (int i = 0; i < 4; i++) {
         for (int k = 0; k < 7; k++){
-            if (chute[i] == *letras[k]){
+            if (tolower(chute[i]) == tolower(*letras[k])){
                 cor_fundo(cores[k][0], cores[k][1], cores[k][2]);
             }
         }
@@ -100,19 +101,17 @@ bool valida(char chute[]){
 
     for (int i = 0; i < 4; i++)
         for (int j = 0; j < 7; j++)
-            if (chute[i] == *letras[j])
+            if (tolower(chute[i]) == tolower(*letras[j]))
                 dentro = true; 
 
     return dentro;
 }
 #pragma endregion
 
-void push(char chute[]){
-    if(top == MAX) // pilha cheia
-        printf("npilha cheian");
-    else {
-        top++;  
+void push(char *chute){
+    if(top != MAX){
         strcpy(anteriores[top], chute);
+        top++;  
     }
 }
 
@@ -146,9 +145,10 @@ void historico() {
     printf("\n");
     puts("Histórico de jogadas");
     int i = 0;
-    while (i < MAX){
-        if (anteriores[i] != "\n" && strlen(anteriores[i]) == 4)
-            printf("%s \n", anteriores[i]);
+    while (i < top){
+        for (int j = 0; j < 4; j++)
+            printf("%c", anteriores[i][j]);
+        printf("\n");
         i++;
     }
     printf("\n");
@@ -208,26 +208,25 @@ void sorteia(char *letras[], char *resultado) {
 void partida() { // cores = {"vermelho", "laranja", "amarelo", "verde", "azul", "anil", "violeta"}
     char chute[4], cores[4] = {};
     char* letras[] = {"v", "l", "a", "e", "z", "n", "i"};
-    int chances = 9;
+    int chances = 0;
     bool desistiu = false, acertou = false;
 
     sorteia(letras, cores);
-    puts(cores);
 
     do {
         printf("Digite seu chute: \n? - tabela de cores\n! - historico de jogadas\n# - desistir de jogar\n- ");
-        gets(chute);
+        scanf("%s", chute);
         int tipo = especial(chute);
         if (tipo == 1) tabela();
         else if (tipo == 2) historico();
         else if (tipo == 3) desistir(&desistiu);
         else {
             processa(chute, cores, &acertou);
-            chances--;
+            chances++;
         }
         if (acertou) break;
         if (desistiu) break;
-    } while (chances != 0);
+    } while (chances < 9);
 }
 
 void jogo() { // inicia o jogo
@@ -238,7 +237,7 @@ void jogo() { // inicia o jogo
         partida();
         puts("Deseja jogar outra vez?");
         puts("Digite qualquer coisa para sim e 'N' para não.");
-        gets(resposta);
+        scanf("%s", resposta);
         if (strcmp(resposta, "n") == 0) break;
     }
 
