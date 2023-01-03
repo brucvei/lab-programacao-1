@@ -12,7 +12,6 @@
 char anteriores[][4] = {"", "", "", "", "", "", "", ""};
 int top = 0;
 
-#pragma region 
 void cor_fundo(int vermelho, int verde, int azul) {
     printf("\e[48;2;%d;%d;%dm", vermelho, verde, azul);
 }
@@ -85,8 +84,8 @@ int verifica(char chute[], char cores[4]){
 
     for (int i = 0; i < 4; i++){
         for (int j = 0; j < 4; j++){
-            if (chute[i] == cores[j] && i != j) result++;
-            if (chute[i] == cores[j] && i == j) result += 10;
+            if (tolower(chute[i]) == cores[j] && i != j) result++;
+            if (tolower(chute[i]) == cores[j] && i == j) result += 10;
         }
     }
     
@@ -95,18 +94,28 @@ int verifica(char chute[], char cores[4]){
 
 bool valida(char chute[]){
     char *letras[] = {"v", "l", "a", "e", "z", "n", "i"};
-    bool dentro = false;
+    int controle = 0, k = 0, igual;
 
     if (strlen(chute) != 4) return false;
 
+    while(k < 4) { 
+        igual = 0;
+        for(int j = 0; j < k; j++)
+            if(chute[j] == chute[k]) igual = 1; 
+
+        if(igual == 1) return false;
+        k++;
+    } 
+
     for (int i = 0; i < 4; i++)
         for (int j = 0; j < 7; j++)
-            if (tolower(chute[i]) == tolower(*letras[j]))
-                dentro = true; 
+            if (tolower(chute[i]) == tolower(*letras[j])) 
+                controle++;
 
-    return dentro;
+    if (controle == 4) return true;
+
+    return false;
 }
-#pragma endregion
 
 void push(char *chute){
     if(top != MAX){
@@ -126,13 +135,12 @@ void processa(char chute[], char cores[4], bool *acertou){
         desenha(chute, pretos, brancos);
         strncpy(temp, cores, 4);
 
-        if (strcmp(chute, temp) == 0)
-        {
+        if (strcmp(chute, temp) == 0) {
             puts("Parabéns! Você acertou!");
             *acertou = true;
         }
     } else {
-        puts("Seu chute foi inválido, tente novamente.");
+        puts("Seu chute foi inválido, tente novamente.\n");
     }
 }
 
@@ -153,7 +161,7 @@ void historico() {
     }
     printf("\n");
 }
-#pragma region
+
 void tabela() {
     char* letras[] = {"v", "l", "a", "e", "z", "n", "i"};
     int cores[7][3] = {{255, 0, 0},{255, 127, 0},{255, 255, 0},{0, 255, 0},{0, 0, 255},{75, 0, 130},{143, 0, 255}};
@@ -204,7 +212,7 @@ void sorteia(char *letras[], char *resultado) {
         strcat(resultado, letras[vet[i]]);
     }
 }
-#pragma endregion
+
 void partida() { // cores = {"vermelho", "laranja", "amarelo", "verde", "azul", "anil", "violeta"}
     char chute[4], cores[4] = {};
     char* letras[] = {"v", "l", "a", "e", "z", "n", "i"};
@@ -212,9 +220,8 @@ void partida() { // cores = {"vermelho", "laranja", "amarelo", "verde", "azul", 
     bool desistiu = false, acertou = false;
 
     sorteia(letras, cores);
-
     do {
-        printf("Digite seu chute: \n? - tabela de cores\n! - historico de jogadas\n# - desistir de jogar\n- ");
+        printf("\nDigite seu chute: \n? - tabela de cores\n! - historico de jogadas\n# - desistir de jogar\n- ");
         scanf("%s", chute);
         int tipo = especial(chute);
         if (tipo == 1) tabela();
@@ -226,12 +233,13 @@ void partida() { // cores = {"vermelho", "laranja", "amarelo", "verde", "azul", 
         }
         if (acertou) break;
         if (desistiu) break;
-    } while (chances < 9);
+    } 
+    while (chances < 9);
 }
 
 void jogo() { // inicia o jogo
     char resposta[1];
-    puts("---- Mastermind ----");
+    puts("\n---- Mastermind ----");
 
     while (strcmp(resposta, "N") != 0) {
         partida();
