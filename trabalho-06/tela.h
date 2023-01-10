@@ -122,4 +122,7 @@ char tela_tecla(void);
 // retorna quantos segundos transcorreram desde o início do programa
 double relogio(void);
 
+#define ALTURA 500
+#define LARGURA 1000
+
 #endif
