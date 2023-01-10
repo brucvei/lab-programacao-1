@@ -2,3 +2,6 @@
 .vscode/
 tempCodeRunnerFile.c
 *.txt
+*.log
+main
+exemplo*
