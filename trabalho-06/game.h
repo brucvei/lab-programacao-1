@@ -1,19 +1,23 @@
 #ifndef _game_h_  // para evitar problemas coma inclusão múltipla deste arquivo
 #define _game_h_
 
+struct ESTADO {
+    int chances;
+    int chutes[4][8];
+    int cores[4];
+    bool acertou;
+    bool desistiu;
+    bool nao;
+} estado;
+
 // Sorteia as cores
-void sorteia();
+void sorteia(int *vetor);
 
-// Inicia a partida
-void partida();
-
-// Desenha a tela durante o jogo
-void tela_jogo();
+// Inicia a partida, seta as variáveis
+void partida(void);
 
 // Inicia o jogo
-void jogo();
-
-// Desenha a tela de inicio do jogo
-void tela_inicial();     
+void jogo(void);
+     
 
 #endif
