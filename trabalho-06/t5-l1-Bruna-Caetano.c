@@ -9,7 +9,7 @@
 #include <ctype.h>
 
 #define MAX 9
-char anteriores[][4] = {"", "", "", "", "", "", "", ""};
+char anteriores[][5] = {"", "", "", "", "", "", "", ""};
 int top = 0;
 
 void cor_fundo(int vermelho, int verde, int azul) {
@@ -79,7 +79,7 @@ void desenha(char chute[], int pretos, int brancos){
 
 }
 
-int verifica(char chute[], char cores[4]){
+int verifica(char chute[], char cores[5]){
     int result = 0;
 
     for (int i = 0; i < 4; i++){
@@ -124,10 +124,10 @@ void push(char *chute){
     }
 }
 
-void processa(char chute[], char cores[4], bool *acertou){
+void processa(char chute[], char cores[5], bool *acertou){
     if(valida(chute)){
         push(chute);
-        char temp[4];
+        char temp[5];
         int result = verifica(chute, cores);
         int pretos = result / 10;
         int brancos = result - pretos * 10;
@@ -193,8 +193,8 @@ int especial(char chute[]) {
 }
 
 void sorteia(char *letras[], char *resultado) {
-    int vet[4], i = 0, igual;
-    char tmp[4];
+    int vet[5], i = 0, igual;
+    char tmp[5];
     srand(time(NULL));
 
     do { 
@@ -214,7 +214,7 @@ void sorteia(char *letras[], char *resultado) {
 }
 
 void partida() { // cores = {"vermelho", "laranja", "amarelo", "verde", "azul", "anil", "violeta"}
-    char chute[4], cores[4] = {};
+    char chute[5], cores[5] = {};
     char* letras[] = {"v", "l", "a", "e", "z", "n", "i"};
     int chances = 0;
     bool desistiu = false, acertou = false;

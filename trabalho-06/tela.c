@@ -47,16 +47,16 @@ int ncores_predef = 10; // quantas cores são predefinidas
 int prox_cor = 10;      // numero da proxima cor definida pelo usuario
 
 void tela_inicializa_cores(void) {
-	cores[azul] = al_map_rgb_f(0, 0, 1);
+	cores[azul]     = al_map_rgb_f(0, 0, 1);
 	cores[vermelho] = al_map_rgb_f(1, 0, 0);
-	cores[verde] = al_map_rgb_f(0, 1, 0);
-	cores[amarelo] = al_map_rgb_f(1, 1, 0);
-	cores[laranja] = al_map_rgb_f(1, 0.65, 0);
-	cores[rosa] = al_map_rgb_f(1, 0, 0.5);
-	cores[marrom] = al_map_rgb_f(0.58, 0.29, 0);
-	cores[preto] = al_map_rgb_f(0, 0, 0);
-	cores[branco] = al_map_rgb_f(1, 1, 1);
-	cores[transparente] = al_map_rgba_f(0, 0, 0, 0);
+	cores[verde]    = al_map_rgb_f(0, 1, 0);
+	cores[amarelo]  = al_map_rgb_f(1, 1, 0);
+	cores[laranja]  = al_map_rgb_f(1, 0.65, 0);
+	cores[rosa]     = al_map_rgb_f(1, 0, 0.5);
+	cores[marrom]   = al_map_rgb_f(0.58, 0.29, 0);
+	cores[preto]    = al_map_rgb_f(0, 0, 0);
+	cores[branco]   = al_map_rgb_f(1, 1, 1);
+	cores[cinza]    = al_map_rgb_f(33, 33, 33);
 }
 
 int tela_cria_cor(float vm, float az, float vd) {
@@ -282,6 +282,8 @@ void tela_inicial() {
 void tela_jogo() {
     // desenha as cores nos circulos
     cria_circulos_iniciais();
+	desenha_chute();
+	desenha_matriz();
 
 	tela_texto_dir(50, ALTURA - 110, 20, branco, "Chute as cores: ");
 
@@ -290,3 +292,9 @@ void tela_jogo() {
     tela_atualiza();
 }
 
+void tela_final() {
+	// desenha a tela final
+	
+    
+    tela_atualiza();
+}

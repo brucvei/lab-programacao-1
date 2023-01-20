@@ -16,10 +16,40 @@
 #include <allegro5/allegro_ttf.h>
 
 // cria o array dos circulos
-void cria_array_circulos(int n, circulo circulos[n]);
+void cria_array_circulos(circulo circulos[]);
+
+// cria os circulos na interface
+void cria_circulos_iniciais(void);
 
 // Sorteia as cores
 void sorteia(int *vetor);
+
+
+// desenha todas as jogadas
+void desenha_matriz(void);
+
+// desenha o chute
+void desenha_chute(void);
+
+// ganhou o jogo
+void ganhou(void);
+
+// desistiu do jogo
+void desistiu(void);
+
+bool valida(int chute);
+
+//  insere o chute na matriz de chutes
+void confirma_chute(void);
+
+// remove uma cor do chute
+void remove_ultimo(void);
+
+// adiciona uma cor ao chute
+void adiciona_chute(int chute);
+
+// Processa um click na tela
+void processa_click(void);
 
 // Inicia a partida, seta as variáveis
 void partida(void);

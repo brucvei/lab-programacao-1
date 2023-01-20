@@ -96,7 +96,7 @@ void tela_texto_dir(float x, float y, int tam, int c, char t[]);
 #define marrom 6
 #define preto 7
 #define branco 8
-#define transparente 9
+#define cinza 9
 
 // cria uma nova cor
 // vm, az, vd componentes vermelho, azul e verde (entre 0 e 1) da nova cor
