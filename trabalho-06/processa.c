@@ -8,6 +8,7 @@
 #include <time.h>
 #include <string.h>
 #include <stdbool.h>
+#include <math.h>
 
 // Os includes do allegro
 #include <allegro5/allegro.h>
@@ -57,13 +58,14 @@ float tela_rato_y_clique(void) {
 	return y_clicado;
 }
 
-char tela_tecla(void) {
+/* char tela_tecla(void) {
 	ALLEGRO_EVENT ev;
 
 	while (al_get_next_event(tela_eventos_teclado, &ev)) {
 		if (ev.type == ALLEGRO_EVENT_KEY_CHAR) {
 			int c = ev.keyboard.unichar;
-	
+
+
 			if (c == '\r')
 				c = '\n'; // corrige windowscentrismo
 			
@@ -74,7 +76,7 @@ char tela_tecla(void) {
 	}
 	// nada foi pressionado (ou foi pressionado algo não imprimível)
 	return '\0';
-}
+} */
 
 circulo circulos[7];
 void cria_array_circulos(int n, circulo circulos[n]) {
@@ -87,8 +89,8 @@ void cria_array_circulos(int n, circulo circulos[n]) {
 }
 
 bool ponto_no_circulo(ponto p, circulo c) {
-    float dx = p.x - c.x;
-    float dy = p.y - c.y;
+    float dx = p.x - c.centro.x;
+    float dy = p.y - c.centro.y;
     float dist = sqrt(dx*dx + dy*dy);
     return dist <= c.raio;
 }

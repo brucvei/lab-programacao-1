@@ -3,6 +3,7 @@
 #include "processa.h"
 #include "game.h"
 #include <stdio.h>
+#include <math.h>
 
 // Os includes do allegro
 #include <allegro5/allegro.h>
@@ -15,7 +16,7 @@ void cai_fora(char *msg) {
 	exit(13);
 }
 
-// fila para receber os eventos do teclado
+/* // fila para receber os eventos do teclado
 ALLEGRO_EVENT_QUEUE *tela_eventos_teclado;
 void tela_inicializa_teclado(void) {
 	if (!al_install_keyboard())
@@ -28,7 +29,7 @@ void tela_inicializa_teclado(void) {
 		cai_fora("problema na criação da fila de eventos do teclado do allegro");
 
 	al_register_event_source(tela_eventos_teclado, al_get_keyboard_event_source());
-}
+} */
 
 void tela_inicializa_janela(float l, float a, char n[]) {
 	// pede para tentar linhas mais suaves (multisampling)
@@ -96,7 +97,7 @@ void tela_inicio(int largura, int altura, char nome[]) {
 
 	// inicializa a tela
 	tela_inicializa_janela(largura, altura, nome);
-	tela_inicializa_teclado();
+	// tela_inicializa_teclado();
 	tela_inicializa_cores();
 }
 

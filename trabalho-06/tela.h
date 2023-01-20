@@ -10,16 +10,6 @@
 
 #include <stdbool.h>
 
-typedef struct {
-    float x, y;
-} ponto;
-
-typedef struct {
-    ponto centro;
-    float raio;
-    int cor;
-} circulo;
-
 // inicialização da tela
 // cria uma janela com o tamanho dado em pixels
 // deve ser executada antes do uso de qualquer outra função da tela

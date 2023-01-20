@@ -1,8 +1,9 @@
 // T6 - Bruna Caetano
 
-// gcc -Wall -o main main.c tela.c game.c -lallegro_font -lallegro_color -lallegro_ttf -lallegro_primitives -lallegro
+// gcc -Wall -o main main.c tela.c processa.c game.c -lm -lallegro_font -lallegro_color -lallegro_ttf -lallegro_primitives -lallegro 
 #include "tela.h"
 #include "game.h"
+#include "processa.h"
 
 #include <stdlib.h>
 #include <stdio.h>
