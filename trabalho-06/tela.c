@@ -54,16 +54,16 @@ int ncores_predef = 10; // quantas cores são predefinidas
 int prox_cor = 10;      // numero da proxima cor definida pelo usuario
 
 void tela_inicializa_cores(void) {
-	cores[transparente] = al_map_rgba_f(0, 0, 0, 0);
 	cores[azul] = al_map_rgb_f(0, 0, 1);
 	cores[vermelho] = al_map_rgb_f(1, 0, 0);
 	cores[verde] = al_map_rgb_f(0, 1, 0);
 	cores[amarelo] = al_map_rgb_f(1, 1, 0);
-	cores[preto] = al_map_rgb_f(0, 0, 0);
 	cores[laranja] = al_map_rgb_f(1, 0.65, 0);
 	cores[rosa] = al_map_rgb_f(1, 0, 0.5);
-	cores[branco] = al_map_rgb_f(1, 1, 1);
 	cores[marrom] = al_map_rgb_f(0.58, 0.29, 0);
+	cores[preto] = al_map_rgb_f(0, 0, 0);
+	cores[branco] = al_map_rgb_f(1, 1, 1);
+	cores[transparente] = al_map_rgba_f(0, 0, 0, 0);
 }
 
 int tela_cria_cor(float vm, float az, float vd) {
@@ -211,6 +211,7 @@ void tela_jogo() {
     printf("telajogo\n");
 
     // desenha as cores nos circulos
+	cria_array_circulos();
     cria_circulos_iniciais();
     // tela_retangulo(LARGURA-10, ALTURA-60, LARGURA-60, ALTURA-10, 0, azul, azul);
     // tela_retangulo(LARGURA-70, ALTURA-60, LARGURA-120, ALTURA-10, 0, vermelho, vermelho);

@@ -83,16 +83,16 @@ void tela_texto_dir(float x, float y, int tam, int c, char t[]);
 // CORES
 
 // valores para representar cores pré-definidas
-#define transparente 0
-#define azul 1
-#define vermelho 2
-#define verde 3
-#define amarelo 4
-#define preto 5
-#define laranja 6
-#define rosa 7
+#define azul 0
+#define vermelho 1
+#define verde 2
+#define amarelo 3
+#define laranja 4
+#define rosa 5
+#define marrom 6
+#define preto 7
 #define branco 8
-#define marrom 9
+#define transparente 9
 
 // cria uma nova cor
 // vm, az, vd componentes vermelho, azul e verde (entre 0 e 1) da nova cor

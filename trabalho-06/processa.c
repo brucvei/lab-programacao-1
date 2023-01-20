@@ -76,6 +76,16 @@ char tela_tecla(void) {
 	return '\0';
 }
 
+circulo circulos[7];
+void cria_array_circulos(int n, circulo circulos[n]) {
+    for (int i=0; i<n; i++) {
+        circulos[i].x = LARGURA - i*100;
+        circulos[i].y = ALTURA - 60;
+        circulos[i].raio = 50;
+        circulos[i].cor = cores[i];
+    }
+}
+
 bool ponto_no_circulo(ponto p, circulo c) {
     float dx = p.x - c.x;
     float dy = p.y - c.y;

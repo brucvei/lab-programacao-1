@@ -26,6 +26,9 @@ float tela_rato_y_clique(void);
 // enter ou '\0' para qualquer outra coisa ou se não tiver sido digitado nada.
 char tela_tecla(void);
 
+// cria o array dos circulos
+void cria_array_circulos(int n, circulo circulos[n]);
+
 // retorna se o ponto está dentro do círculo
 bool ponto_no_circulo(ponto p, circulo c);
 
