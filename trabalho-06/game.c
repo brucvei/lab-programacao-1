@@ -1,20 +1,6 @@
 // inclui as definicoes
 #include "tela.h"
-#include "processa.h"
 #include "game.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <locale.h>
-#include <time.h>
-#include <string.h>
-#include <stdbool.h>
-#include <math.h>
-
-// Os includes do allegro
-#include <allegro5/allegro.h>
-#include <allegro5/allegro_primitives.h>
-#include <allegro5/allegro_font.h>
-#include <allegro5/allegro_ttf.h>
 
 struct ESTADO {
     int chances;
@@ -24,6 +10,29 @@ struct ESTADO {
     bool desistiu;
     bool nao;
 } estado;
+
+circulo circulos[7], funcoes[3];
+ponto click;
+
+void cria_circulos_funcoes(){
+
+}
+
+void cria_array_circulos(circulo circulos[]) {
+    for (int i=0; i<7; i++) {
+        circulos[i].centro.x = LARGURA - i*50 - 50;
+        circulos[i].centro.y = ALTURA - 50;
+        circulos[i].raio = 20;
+        circulos[i].cor = i;
+    }
+}
+
+void cria_circulos_iniciais(){
+	for (int i = 0; i < 7; i++)
+	{
+		tela_circulo(circulos[i].centro.x, circulos[i].centro.y, circulos[i].raio, 2, circulos[i].cor, circulos[i].cor);
+	}
+}
 
 void sorteia(int *resultado) {
     int vet[4], i = 0, igual;
@@ -43,21 +52,57 @@ void sorteia(int *resultado) {
     for (i = 0; i < 4; i++) {
         resultado[i] = vet[i];
     }
-    
+}
+
+void processa_click(){
+    /* if(valida(chute)){
+        push(chute);
+        char temp[4];
+        int result = verifica(chute, cores);
+        int pretos = result / 10;
+        int brancos = result - pretos * 10;
+
+        desenha(chute, pretos, brancos);
+        strncpy(temp, cores, 4);
+
+        if (strcmp(chute, temp) == 0) {
+            puts("Parabéns! Você acertou!");
+            *acertou = true;
+        }
+    } else {
+        puts("Seu chute foi inválido, tente novamente.\n");
+    } */
+    click.x = tela_rato_x();
+    click.y = tela_rato_y();
+
+    int tmp = circulo_no_ponto(7, circulos, click);
+    if (tmp > 0) {
+        printf("Chute: %d\n", tmp);
+    }
 }
 
 void partida() {
-    printf("Partida\n");
-
     estado.chances = 9;
     estado.acertou = false;
     estado.desistiu = false;
     estado.nao = false; 
     sorteia(estado.cores);
+    cria_array_circulos(circulos);
 
-    printf("Jogo\n");
-    tela_jogo();
-    tela_atualiza();
+    do {
+        printf("Cores: %d %d %d %d\n", estado.cores[0], estado.cores[1], estado.cores[2], estado.cores[3]);
+
+        if (tela_rato_clicado()) {
+            processa_click();
+        }
+        
+        estado.chances--;
+
+        tela_jogo();
+    } while (true);
+
+    // tela_atualiza();
+    
 }
 
 void jogo() {

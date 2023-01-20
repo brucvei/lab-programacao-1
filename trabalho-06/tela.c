@@ -1,15 +1,7 @@
 // inclui as definicoes
 #include "tela.h"
-#include "processa.h"
 #include "game.h"
-#include <stdio.h>
-#include <math.h>
 
-// Os includes do allegro
-#include <allegro5/allegro.h>
-#include <allegro5/allegro_primitives.h>
-#include <allegro5/allegro_font.h>
-#include <allegro5/allegro_ttf.h>
 
 void cai_fora(char *msg) {
 	printf("\n\nERRO\n%s\n\n", msg);
@@ -183,13 +175,96 @@ double relogio(void) {
 	return al_get_time();
 }
 
-// funções de desenho que eu criei
-void cria_circulos_iniciais(){
-	
+float tela_rato_x(void) {
+	ALLEGRO_MOUSE_STATE rato;
+	al_get_mouse_state(&rato);
+	return al_get_mouse_state_axis(&rato, 0);
+}
+
+float tela_rato_y(void) {
+	ALLEGRO_MOUSE_STATE rato;
+	al_get_mouse_state(&rato);
+	return al_get_mouse_state_axis(&rato, 1);
+}
+
+bool tela_rato_apertado(void) {
+	ALLEGRO_MOUSE_STATE rato;
+	al_get_mouse_state(&rato);
+	// só nos interessa o botão da esquerda
+	return al_mouse_button_down(&rato, 1);
+}
+
+bool tava_apertado = false;
+float x_clicado = 0;
+float y_clicado = 0;
+
+bool tela_rato_clicado(void) {
+	bool ta_apertado = tela_rato_apertado();
+	bool foi_clicado = (tava_apertado && !ta_apertado);
+	if (foi_clicado) {
+		x_clicado = tela_rato_x();
+		y_clicado = tela_rato_y();
+	}
+	tava_apertado = ta_apertado;
+	return foi_clicado;
+}
+
+float tela_rato_x_clique(void) {
+	return x_clicado;
+}
+
+float tela_rato_y_clique(void) {
+	return y_clicado;
+}
+
+/* char tela_tecla(void) {
+	ALLEGRO_EVENT ev;
+
+	while (al_get_next_event(tela_eventos_teclado, &ev)) {
+		if (ev.type == ALLEGRO_EVENT_KEY_CHAR) {
+			int c = ev.keyboard.unichar;
+
+
+			if (c == '\r')
+				c = '\n'; // corrige windowscentrismo
+			
+			// só retorna caracteres imprimíveis, backspace e enter
+			if ((c >= ' ' && c <= '~') || c == '\b' || c == '\n')
+				return (char)c;
+		}
+	}
+	// nada foi pressionado (ou foi pressionado algo não imprimível)
+	return '\0';
+} */
+
+
+
+bool ponto_no_circulo(ponto p, circulo c) {
+    float dx = p.x - c.centro.x;
+    float dy = p.y - c.centro.y;
+    float dist = sqrt(dx*dx + dy*dy);
+    return dist <= c.raio;
+}
+
+int circulo_no_ponto(int n, circulo circulos[n], ponto p) {
+    for (int i=0; i<n; i++) {
+        if (ponto_no_circulo(p, circulos[i])) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+
+void desenha_mouse(){
+	tela_circulo(tela_rato_x(), tela_rato_y(), 10, 2, vermelho, branco);
+
+	// faz uma linha se o botão do mouse tiver apertado
+	if (tela_rato_apertado())
+		tela_circulo(tela_rato_x(), tela_rato_y(), 10, 2, branco, azul);
 }
 
 void tela_inicial() {
-	printf("Tela inicial\n");
 	// desenha a tela inicial
 	tela_texto(500, 200, 20, branco, "Deseja iniciar uma partida?");
 
@@ -198,29 +273,20 @@ void tela_inicial() {
 
 	tela_retangulo(500, 230, 540, 250, 5, vermelho, vermelho);
 	tela_texto(520, 240, 18, branco, "Nao");
-	// desenha um círculo na posição do mouse
-	tela_circulo(tela_rato_x(), tela_rato_y(), 10, 2, vermelho, branco);
 
-	// faz uma linha se o botão do mouse tiver apertado
-	if (tela_rato_apertado())
-		tela_circulo(tela_rato_x(), tela_rato_y(), 10, 2, branco, azul);
+	desenha_mouse();
 
 	tela_atualiza();
 }
 
 void tela_jogo() {
-    printf("telajogo\n");
-
     // desenha as cores nos circulos
-	cria_array_circulos();
     cria_circulos_iniciais();
-    // tela_retangulo(LARGURA-10, ALTURA-60, LARGURA-60, ALTURA-10, 0, azul, azul);
-    // tela_retangulo(LARGURA-70, ALTURA-60, LARGURA-120, ALTURA-10, 0, vermelho, vermelho);
-    // tela_retangulo(LARGURA-130, ALTURA-60, LARGURA-180, ALTURA-10, 0, verde, verde);
-    // tela_retangulo(LARGURA-190, ALTURA-60, LARGURA-240, ALTURA-10, 0, amarelo, amarelo);
-    // tela_retangulo(LARGURA-250, ALTURA-60, LARGURA-300, ALTURA-10, 0, laranja, laranja);
-    // tela_retangulo(LARGURA-310, ALTURA-60, LARGURA-360, ALTURA-10, 0, rosa, rosa);
-    // tela_retangulo(LARGURA-370, ALTURA-60, LARGURA-420, ALTURA-10, 0, marrom, marrom);
+
+	tela_texto_dir(50, ALTURA - 110, 20, branco, "Chute as cores: ");
+
+	desenha_mouse();
 
     tela_atualiza();
 }
+
