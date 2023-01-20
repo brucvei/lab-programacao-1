@@ -8,6 +8,7 @@
 #include <time.h>
 #include <string.h>
 #include <stdbool.h>
+#include <math.h>
 
 // Os includes do allegro
 #include <allegro5/allegro.h>
@@ -15,6 +16,14 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
 
+struct ESTADO {
+    int chances;
+    int chutes[4][8];
+    int cores[4];
+    bool acertou;
+    bool desistiu;
+    bool nao;
+} estado;
 
 void sorteia(int *resultado) {
     int vet[4], i = 0, igual;

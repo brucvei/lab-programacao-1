@@ -1,6 +1,17 @@
 #ifndef _game_h_  // para evitar problemas coma inclusão múltipla deste arquivo
 #define _game_h_
 
+
+typedef struct {
+    float x, y;
+} ponto;
+
+typedef struct {
+    ponto centro;
+    float raio;
+    int cor;
+} circulo;
+
 // ENTRADA DE DADOS
 // retorna a posição x do mouse
 float tela_rato_x(void);
@@ -24,7 +35,7 @@ float tela_rato_y_clique(void);
 // retorna uma tecla digitada
 // pode retornar um caractere imprimível ou '\b' para backspace ou '\n' para
 // enter ou '\0' para qualquer outra coisa ou se não tiver sido digitado nada.
-char tela_tecla(void);
+// char tela_tecla(void);
 
 // retorna se o ponto está dentro do círculo
 bool ponto_no_circulo(ponto p, circulo c);
