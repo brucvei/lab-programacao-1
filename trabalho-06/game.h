@@ -15,6 +15,9 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
 
+// pega os dados do arquivo do ranking
+void top5(ranking melhores[]);
+
 // cria o array dos circulos
 void cria_array_circulos(circulo circulos[]);
 
@@ -24,12 +27,17 @@ void cria_circulos_iniciais(void);
 // Sorteia as cores
 void sorteia(int *vetor);
 
+// desenha o placar
+void desenha_top5(void);
 
 // desenha todas as jogadas
 void desenha_matriz(void);
 
 // desenha o chute
 void desenha_chute(void);
+
+// calcula a pontuacao do jogador 
+void pontuacao(void);
 
 // ganhou o jogo
 void ganhou(void);

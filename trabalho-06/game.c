@@ -12,9 +12,25 @@ struct ESTADO {
     bool nao;
 } estado;
 
-int contador = 0, chuteAtual[4];
+int contador = 0, chuteAtual[4], pontos = 0;
+
 circulo circulos[10];
 ponto click;
+ranking melhores[5];
+
+void top5(ranking melhores[]) {
+    FILE *arq = fopen("top5.txt", "r");
+    if (arq == NULL) {
+        printf("Erro ao abrir o arquivo\n");
+        exit(1);
+    }
+
+    for (int i = 0; i < 5; i++) {
+        fscanf(arq, "%s %d", melhores[i].iniciais, &melhores[i].pontos);
+    }
+
+    fclose(arq);
+}
 
 void cria_array_circulos(circulo circulos[]) {
     for (int i=0; i<10; i++) {
@@ -54,6 +70,15 @@ void sorteia(int *resultado) {
     }
 }
 
+void desenha_top5() {
+    tela_texto_esq(LARGURA - 50, 50, 20, branco, "TOP 5");
+    for (int i = 0; i < 5; i++) {
+        char texto[10];
+        sprintf(texto, "%s %d", melhores[i].iniciais, melhores[i].pontos);
+        tela_texto_esq(LARGURA - 50, 100 + i * 50, 20, branco, texto);
+    }
+}
+
 void desenha_matriz() {
     int x = 50, y = 50;
     for (int i = 0; i < estado.chances; i++) {
@@ -80,14 +105,33 @@ void desenha_chute() {
         tela_circulo((i + 1) * 50, ALTURA - 50, 20, 2, branco, chuteAtual[i]);
 }
 
+void pontuacao() {
+    for (int i = 0; i < estado.chances; i++) {
+        pontos += estado.acertos[0][i] * 5;
+        pontos += estado.acertos[1][i] * 3;
+    }
+
+    if(estado.acertou) pontos *= (9 - estado.chances);
+
+    char str[100];
+    sprintf(str, "%s %d", "Pontuação: ", pontos);
+
+    tela_texto(LARGURA/2, ALTURA/2 + 50, 50, branco, str);
+    printf("Pontuação: %d\n", pontos);
+}
+
 void ganhou() {
-    tela_final();
+    pontuacao();
+
     tela_texto(LARGURA/2, ALTURA/2, 50, branco, "Você ganhou!");
+    tela_final();
 }
 
 void desistiu() {
-    tela_final();
+    pontuacao();
+
     tela_texto(LARGURA/2, ALTURA/2, 50, branco, "Você desistiu!");
+    tela_final();
 }
 
 void conta_pretos_brancos() {
@@ -162,7 +206,6 @@ void processa_click() {
     } else if (tmp == 8) {
         printf("Confirmou\n");
         confirma_chute();
-            // confirmar chute
     } else if (tmp == 9) {
         printf("Apagou\n");
         remove_ultimo();
@@ -179,6 +222,7 @@ void partida() {
     estado.nao = false; 
     sorteia(estado.cores);
     cria_array_circulos(circulos);
+    top5(melhores);
 
     printf("Cores: %d %d %d %d\n", estado.cores[0], estado.cores[1], estado.cores[2], estado.cores[3]);
     do {
@@ -198,7 +242,6 @@ void partida() {
     } while (estado.chances < 9);
 
     tela_atualiza();
-    
 }
 
 void jogo() {

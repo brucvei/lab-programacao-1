@@ -8,7 +8,7 @@ void cai_fora(char *msg) {
 	exit(13);
 }
 
-/* // fila para receber os eventos do teclado
+// fila para receber os eventos do teclado
 ALLEGRO_EVENT_QUEUE *tela_eventos_teclado;
 void tela_inicializa_teclado(void) {
 	if (!al_install_keyboard())
@@ -21,7 +21,7 @@ void tela_inicializa_teclado(void) {
 		cai_fora("problema na criação da fila de eventos do teclado do allegro");
 
 	al_register_event_source(tela_eventos_teclado, al_get_keyboard_event_source());
-} */
+}
 
 void tela_inicializa_janela(float l, float a, char n[]) {
 	// pede para tentar linhas mais suaves (multisampling)
@@ -217,7 +217,7 @@ float tela_rato_y_clique(void) {
 	return y_clicado;
 }
 
-/* char tela_tecla(void) {
+char tela_tecla(void) {
 	ALLEGRO_EVENT ev;
 
 	while (al_get_next_event(tela_eventos_teclado, &ev)) {
@@ -235,7 +235,7 @@ float tela_rato_y_clique(void) {
 	}
 	// nada foi pressionado (ou foi pressionado algo não imprimível)
 	return '\0';
-} */
+}
 
 
 
@@ -284,6 +284,7 @@ void tela_jogo() {
     cria_circulos_iniciais();
 	desenha_chute();
 	desenha_matriz();
+	desenha_top5();
 
 	tela_texto_dir(50, ALTURA - 110, 20, branco, "Chute as cores: ");
 
@@ -295,6 +296,8 @@ void tela_jogo() {
 void tela_final() {
 	// desenha a tela final
 	
+	desenha_top5();
+	desenha_mouse();
     
     tela_atualiza();
 }

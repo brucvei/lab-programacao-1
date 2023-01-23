@@ -121,6 +121,11 @@ typedef struct {
     int cor;
 } circulo;
 
+typedef struct {
+    int pontos;
+    char iniciais[3];
+} ranking;
+
 // ENTRADA DE DADOS
 // retorna a posição x do mouse
 float tela_rato_x(void);
@@ -165,5 +170,11 @@ void tela_jogo(void);
 
 // Desenha a tela de inicio do jogo
 void tela_inicial(void);
+
+// Desenha a tela durante a partida
+void tela_jogo(void);
+
+// Desenha a tela de fim de jogo
+void tela_final(void);
 
 // #endif _tela_h_ 
