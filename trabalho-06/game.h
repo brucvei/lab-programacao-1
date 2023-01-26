@@ -15,6 +15,12 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
 
+// salva o ranking
+void salva_top5(void);
+
+// ordena o ranking
+void ordena_top5(void);
+
 // pega os dados do arquivo do ranking
 void top5(ranking melhores[]);
 
@@ -45,6 +51,10 @@ void ganhou(void);
 // desistiu do jogo
 void desistiu(void);
 
+// conta os pretos e brancos
+void conta_pretos_e_brancos();
+
+// verifica se o chute é valido
 bool valida(int chute);
 
 //  insere o chute na matriz de chutes

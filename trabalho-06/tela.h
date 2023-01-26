@@ -162,9 +162,6 @@ bool ponto_no_circulo(ponto p, circulo c);
 // retorna o índice do circulo do vetor no qual está o ponto, ou -1 se não tiver em nenhum deles
 int circulo_no_ponto(int n, circulo circulos[n], ponto p);
 
-// Cria os circulos de todas as cores que são criados no inicio do jogo
-void cria_circulos_iniciais(void);
-
 // Desenha uma bolinha no lugar do mouse
 void desenha_mouse(void);
 
@@ -180,4 +177,4 @@ void tela_jogo(void);
 // Desenha a tela de fim de jogo
 void tela_final(void);
 
-// #endif _tela_h_ 
+#endif _tela_h_ 
