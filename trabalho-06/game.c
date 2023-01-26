@@ -18,6 +18,33 @@ circulo circulos[10];
 ponto click;
 ranking melhores[5];
 
+void salva_top5() {
+    FILE *arq = fopen("top5.txt", "w");
+    if (arq == NULL) {
+        printf("Erro ao abrir o arquivo\n");
+        exit(1);
+    }
+
+    for (int i = 0; i < 5; i++) {
+        fprintf(arq, "%s %d\n", melhores[i].iniciais, melhores[i].pontos);
+    }
+
+    fclose(arq);
+}
+
+void ordena_top5() {
+    for (int i = 0; i < 5; i++) {
+        for (int j = i + 1; j < 5; j++) {
+            if (melhores[i].pontos < melhores[j].pontos) {
+                ranking aux = melhores[i];
+                melhores[i] = melhores[j];
+                melhores[j] = aux;
+            }
+        }
+    }
+
+}
+
 void top5(ranking melhores[]) {
     FILE *arq = fopen("top5.txt", "r");
     if (arq == NULL) {
@@ -25,8 +52,10 @@ void top5(ranking melhores[]) {
         exit(1);
     }
 
+    printf("Melhores jogadores:\n");
     for (int i = 0; i < 5; i++) {
         fscanf(arq, "%s %d", melhores[i].iniciais, &melhores[i].pontos);
+        printf("%s %d\n", melhores[i].iniciais, melhores[i].pontos);
     }
 
     fclose(arq);
@@ -118,20 +147,32 @@ void pontuacao() {
 
     tela_texto(LARGURA/2, ALTURA/2 + 50, 50, branco, str);
     printf("Pontuação: %d\n", pontos);
+
+    if (pontos > melhores[4].pontos) {
+        tela_texto(LARGURA/2, ALTURA/2 + 100, 50, branco, "Digite suas iniciais:");
+
+        for (int i = 0; i < 3; i++) {
+            melhores[4].iniciais[i] = tela_tecla();
+        }
+        melhores[4].pontos = pontos;
+
+        ordena_top5();
+        salva_top5();
+    }
 }
 
 void ganhou() {
-    pontuacao();
-
-    tela_texto(LARGURA/2, ALTURA/2, 50, branco, "Você ganhou!");
     tela_final();
+    
+    pontuacao();
+    tela_texto(LARGURA/2, ALTURA/2, 50, branco, "Você ganhou!");
 }
 
 void desistiu() {
-    pontuacao();
-
-    tela_texto(LARGURA/2, ALTURA/2, 50, branco, "Você desistiu!");
     tela_final();
+
+    pontuacao();
+    tela_texto(LARGURA/2, ALTURA/2, 50, branco, "Você desistiu!");
 }
 
 void conta_pretos_brancos() {
@@ -152,7 +193,6 @@ void conta_pretos_brancos() {
     estado.acertos[0][estado.chances] = pretos;
     estado.acertos[1][estado.chances] = brancos;
 }
-
 
 bool valida(int chute) {
     for (int i = 0; i < 4; i++) {
@@ -223,6 +263,7 @@ void partida() {
     sorteia(estado.cores);
     cria_array_circulos(circulos);
     top5(melhores);
+    pontos = 0;
 
     printf("Cores: %d %d %d %d\n", estado.cores[0], estado.cores[1], estado.cores[2], estado.cores[3]);
     do {

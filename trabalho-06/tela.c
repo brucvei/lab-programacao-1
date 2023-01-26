@@ -238,7 +238,6 @@ char tela_tecla(void) {
 }
 
 
-
 bool ponto_no_circulo(ponto p, circulo c) {
     float dx = p.x - c.centro.x;
     float dy = p.y - c.centro.y;
@@ -254,7 +253,6 @@ int circulo_no_ponto(int n, circulo circulos[n], ponto p) {
     }
     return -1;
 }
-
 
 void desenha_mouse(){
 	tela_circulo(tela_rato_x(), tela_rato_y(), 10, 2, vermelho, branco);
@@ -295,6 +293,7 @@ void tela_jogo() {
 
 void tela_final() {
 	// desenha a tela final
+	tela_inicial();
 	
 	desenha_top5();
 	desenha_mouse();

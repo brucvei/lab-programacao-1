@@ -22,17 +22,44 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
 
+// funcao para sair do programa em caso de erro
+void cai_fora(char *msg);
+
+// inicializa o teclado
+void tela_inicializa_teclado(void);
+
+// inicializa a janela
+void tela_inicializa_janela(int largura, int altura, char nome[]);
+
+// valores para representar cores pré-definidas
+#define azul 0
+#define vermelho 1
+#define verde 2
+#define amarelo 3
+#define laranja 4
+#define rosa 5
+#define marrom 6
+#define preto 7
+#define branco 8
+#define cinza 9
+
+// inicializa as cores
+void tela_inicializa_cores(void);
+
+// cria uma nova cor
+// vm, az, vd componentes vermelho, azul e verde (entre 0 e 1) da nova cor
+// retorna um valor inteiro que deve ser usado nas funções de desenho
+int tela_cria_cor(float vm, float az, float vd);
+
 // inicialização da tela
 // cria uma janela com o tamanho dado em pixels
 // deve ser executada antes do uso de qualquer outra função da tela
 void tela_inicio(int largura, int altura, char nome[]);
 
-
 // finalização da tela
 // deve ser chamada no final da utilização da tela, nenhuma outra função da
 // tela deve ser chamada depois desta.
 void tela_fim(void);
-
 
 // atualiza a tela
 // faz com o que foi desenhado na tela desde a última atualização
@@ -67,6 +94,8 @@ void tela_linha(float x1, float y1, float x2, float y2, float l, int corl);
 void tela_retangulo(float x1, float y1, float x2, float y2, float l,
                     int corl, int corint);
 
+// configura fontes
+void tela_prepara_fonte(int tam);
 
 // desenha texto centrado
 // x,y coordenadas do meio do texto, tam tamanho das letras, c cor, t texto
@@ -76,35 +105,10 @@ void tela_texto(float x, float y, int tam, int c, char t[]);
 // x,y coordenadas do fim do texto, tam tamanho das letras, c cor, t texto
 void tela_texto_esq(float x, float y, int tam, int c, char t[]);
 
-// desenha texto à direita
-#endif
-
 // x, y coordenadas do inicio do texto, tam tamanho das letras, c cor, t texto
 void tela_texto_dir(float x, float y, int tam, int c, char t[]);
 
-
-
-// CORES
-
-// valores para representar cores pré-definidas
-#define azul 0
-#define vermelho 1
-#define verde 2
-#define amarelo 3
-#define laranja 4
-#define rosa 5
-#define marrom 6
-#define preto 7
-#define branco 8
-#define cinza 9
-
-// cria uma nova cor
-// vm, az, vd componentes vermelho, azul e verde (entre 0 e 1) da nova cor
-// retorna um valor inteiro que deve ser usado nas funções de desenho
-int tela_cria_cor(float vm, float az, float vd);
-
 // TEMPO
-
 // retorna quantos segundos transcorreram desde o início do programa
 double relogio(void);
 
@@ -123,7 +127,7 @@ typedef struct {
 
 typedef struct {
     int pontos;
-    char iniciais[3];
+    char iniciais[4];
 } ranking;
 
 // ENTRADA DE DADOS
@@ -149,8 +153,7 @@ float tela_rato_y_clique(void);
 // retorna uma tecla digitada
 // pode retornar um caractere imprimível ou '\b' para backspace ou '\n' para
 // enter ou '\0' para qualquer outra coisa ou se não tiver sido digitado nada.
-// char tela_tecla(void);
-
+char tela_tecla(void);
 
 
 // retorna se o ponto está dentro do círculo
