@@ -29,7 +29,7 @@ void cai_fora(char *msg);
 void tela_inicializa_teclado(void);
 
 // inicializa a janela
-void tela_inicializa_janela(int largura, int altura, char nome[]);
+void tela_inicializa_janela(float l, float a, char n[]);
 
 // valores para representar cores pré-definidas
 #define azul 0
@@ -177,4 +177,4 @@ void tela_jogo(void);
 // Desenha a tela de fim de jogo
 void tela_final(void);
 
-#endif _tela_h_ 
+#endif 

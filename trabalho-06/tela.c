@@ -89,7 +89,7 @@ void tela_inicio(int largura, int altura, char nome[]) {
 
 	// inicializa a tela
 	tela_inicializa_janela(largura, altura, nome);
-	// tela_inicializa_teclado();
+	tela_inicializa_teclado();
 	tela_inicializa_cores();
 }
 
@@ -264,6 +264,7 @@ void desenha_mouse(){
 
 void tela_inicial() {
 	// desenha a tela inicial
+	tela_texto(500, 100, 30, branco, "MASTERMIND");
 	tela_texto(500, 200, 20, branco, "Deseja iniciar uma partida?");
 
 	tela_retangulo(450, 230, 490, 250, 5, azul, azul);
@@ -292,11 +293,9 @@ void tela_jogo() {
 }
 
 void tela_final() {
-	// desenha a tela final
-	tela_inicial();
-	
 	desenha_top5();
-	desenha_mouse();
+	// desenha_mouse();
+	// tela_inicial();
     
     tela_atualiza();
 }

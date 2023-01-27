@@ -13,6 +13,7 @@ struct ESTADO {
 } estado;
 
 int contador = 0, chuteAtual[4], pontos = 0;
+bool maior = false;
 
 circulo circulos[10];
 ponto click;
@@ -134,6 +135,35 @@ void desenha_chute() {
         tela_circulo((i + 1) * 50, ALTURA - 50, 20, 2, branco, chuteAtual[i]);
 }
 
+void click_botao_salvar() {
+    if (maior) {
+        if (tela_rato_clicado()) {
+            if(tela_rato_x() >= 450 && tela_rato_x() <= 230 && tela_rato_y() >= 490 && tela_rato_y() <= 250){
+                ordena_top5();
+                salva_top5();
+            }
+        }
+    }
+}
+
+void verifica_maior() {
+    if (pontos > melhores[4].pontos) {
+        maior = true;
+    }
+}
+
+void pega_iniciais() {
+    tela_texto(LARGURA/2, ALTURA/2 + 100, 50, branco, "Digite suas iniciais:");
+
+    for (int i = 0; i < 3; i++) {
+        melhores[4].iniciais[i] = tela_tecla();
+        tela_texto(LARGURA/2, ALTURA/2 + 150, 50, branco, &melhores[4].iniciais[i]);
+    }
+
+    tela_retangulo(450, 230, 490, 250, 5, azul, azul);
+	tela_texto(470, 240, 18, branco, "Salvar");
+}
+
 void pontuacao() {
     for (int i = 0; i < estado.chances; i++) {
         pontos += estado.acertos[0][i] * 5;
@@ -147,32 +177,37 @@ void pontuacao() {
 
     tela_texto(LARGURA/2, ALTURA/2 + 50, 50, branco, str);
     printf("Pontuação: %d\n", pontos);
+    verifica_maior();
 
-    if (pontos > melhores[4].pontos) {
-        tela_texto(LARGURA/2, ALTURA/2 + 100, 50, branco, "Digite suas iniciais:");
-
-        for (int i = 0; i < 3; i++) {
-            melhores[4].iniciais[i] = tela_tecla();
-        }
+    if (maior == true) {
+        pega_iniciais();
         melhores[4].pontos = pontos;
-
-        ordena_top5();
-        salva_top5();
     }
 }
 
-void ganhou() {
-    tela_final();
-    
+void perdeu() {
     pontuacao();
+
+    tela_texto(LARGURA/2, ALTURA/2, 50, branco, "Você perdeu!");
+    tela_inicial();
+}
+
+void ganhou() {
+    pontuacao();
+
     tela_texto(LARGURA/2, ALTURA/2, 50, branco, "Você ganhou!");
+    tela_inicial();
+
+    click_botao_salvar();
 }
 
 void desistiu() {
-    tela_final();
-
     pontuacao();
+
     tela_texto(LARGURA/2, ALTURA/2, 50, branco, "Você desistiu!");
+    tela_inicial();
+
+    click_botao_salvar();
 }
 
 void conta_pretos_brancos() {
